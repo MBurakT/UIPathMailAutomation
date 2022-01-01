@@ -1,12 +1,13 @@
 <Activity mc:Ignorable="sap sap2010" x:Class="SendMailResult" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
-    <x:Property Name="in_sendersMail" Type="InArgument(x:String)" />
     <x:Property Name="in_browser" Type="InArgument(x:String)" />
+    <x:Property Name="in_in_sendersMail" Type="InArgument(x:String)" />
+    <x:Property Name="in_in_mailBodyContext" Type="InArgument(x:String)" />
   </x:Members>
   <mva:VisualBasic.Settings>
     <x:Null />
   </mva:VisualBasic.Settings>
-  <sap:VirtualizedContainerService.HintSize>1158,827</sap:VirtualizedContainerService.HintSize>
+  <sap:VirtualizedContainerService.HintSize>1237,827</sap:VirtualizedContainerService.HintSize>
   <sap2010:WorkflowViewState.IdRef>SendMailResult_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
@@ -70,18 +71,16 @@
       <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence DisplayName="SendMailResult" sap:VirtualizedContainerService.HintSize="376,299" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="SendMailResult" sap:VirtualizedContainerService.HintSize="376,269" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:SendOutlookMail Account="{x:Null}" Bcc="{x:Null}" Cc="{x:Null}" MailMessage="{x:Null}" ReplyTo="{x:Null}" TimeoutMS="{x:Null}" Body="[&quot;Merhaba,&quot;+vbNewLine+vbNewLine+&#xD;&#xA;in_browser+&quot; arama sonucu ektedir.&quot;+vbNewLine+vbNewLine+&#xD;&#xA;&quot;İyi çalışmalar.&quot;]" DisplayName="Send Outlook Mail Message" sap:VirtualizedContainerService.HintSize="334,207" sap2010:WorkflowViewState.IdRef="SendOutlookMail_1" Importance="Normal" IsBodyHtml="False" IsDraft="False" Sensitivity="Normal" Subject="Arama Sonucu" To="[in_sendersMail]">
+    <ui:SendOutlookMail Account="{x:Null}" Bcc="{x:Null}" Cc="{x:Null}" MailMessage="{x:Null}" ReplyTo="{x:Null}" TimeoutMS="{x:Null}" Body="[&quot;Merhaba,&quot;+vbNewLine+vbNewLine+&#xA;in_browser+&quot; arama sonucu ektedir.&quot;+vbNewLine+vbNewLine+&#xA;&quot;İyi çalışmalar.&quot;]" DisplayName="Send Outlook Mail Message" sap:VirtualizedContainerService.HintSize="334,177" sap2010:WorkflowViewState.IdRef="SendOutlookMail_1" Importance="Normal" IsBodyHtml="False" IsDraft="False" Sensitivity="Normal" Subject="[in_in_mailBodyContext+&quot; Arama Sonucu&quot;]" To="[in_in_sendersMail]">
       <ui:SendOutlookMail.Files>
         <scg:List x:TypeArguments="InArgument(x:String)" Capacity="4">
-          <InArgument x:TypeArguments="x:String">
-            <Literal x:TypeArguments="x:String">C:\Users\mbtbr\OneDrive\Belgeler\UiPath\RPAMail\arama sonucu.xlsx</Literal>
-          </InArgument>
+          <InArgument x:TypeArguments="x:String">C:\Users\mbtbr\OneDrive\Belgeler\UiPath\RPAMail\arama sonucu.xlsx</InArgument>
         </scg:List>
       </ui:SendOutlookMail.Files>
       <sap:WorkflowViewStateService.ViewState>

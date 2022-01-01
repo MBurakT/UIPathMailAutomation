@@ -1,4 +1,4 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Main" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="1158,1922" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:sc="clr-namespace:System.ComponentModel;assembly=System" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:snm="clr-namespace:System.Net.Mail;assembly=System" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="1120,1734" sap2010:WorkflowViewState.IdRef="ActivityBuilder_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:sc="clr-namespace:System.ComponentModel;assembly=System" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:snm="clr-namespace:System.Net.Mail;assembly=System" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <TextExpression.NamespacesForImplementation>
     <scg:List x:TypeArguments="x:String" Capacity="38">
       <x:String>System.Activities</x:String>
@@ -76,6 +76,7 @@
       <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
       <AssemblyReference>System.Runtime.Serialization</AssemblyReference>
       <AssemblyReference>UiPath.Excel.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </scg:List>
   </TextExpression.ReferencesForImplementation>
   <sap:WorkflowViewStateService.ViewState>
@@ -83,9 +84,14 @@
       <x:Boolean x:Key="ShouldCollapseAll">True</x:Boolean>
     </scg:Dictionary>
   </sap:WorkflowViewStateService.ViewState>
-  <Sequence DisplayName="Scenario" sap:VirtualizedContainerService.HintSize="571,1857" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence DisplayName="Scenario" sap:VirtualizedContainerService.HintSize="571,1669" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="scg:List(snm:MailMessage)" Name="EmailList" />
+      <Variable x:TypeArguments="x:String" Name="excelPath">
+        <Variable.Default>
+          <Literal x:TypeArguments="x:String">C:\Users\mbtbr\OneDrive\Belgeler\UiPath\RPAMail\arama sonucu.xlsx</Literal>
+        </Variable.Default>
+      </Variable>
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -94,16 +100,16 @@
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
     <ui:GetOutlookMailMessages Account="{x:Null}" Filter="{x:Null}" FilterByMessageIds="{x:Null}" TimeoutMS="{x:Null}" DisplayName="Get Outlook Mail Messages" GetAttachements="False" sap:VirtualizedContainerService.HintSize="529,22" sap2010:WorkflowViewState.IdRef="GetOutlookMailMessages_1" MailFolder="Inbox" MarkAsRead="True" Messages="[EmailList]" OnlyUnreadMessages="True" OrderByDate="OldestFirst" Top="-1" />
-    <ui:ForEach x:TypeArguments="snm:MailMessage" CurrentIndex="{x:Null}" DisplayName="For Each" sap:VirtualizedContainerService.HintSize="529,1703" sap2010:WorkflowViewState.IdRef="ForEach`1_3" Values="[EmailList]">
+    <ui:ForEach x:TypeArguments="snm:MailMessage" CurrentIndex="{x:Null}" DisplayName="For Each" sap:VirtualizedContainerService.HintSize="529,1515" sap2010:WorkflowViewState.IdRef="ForEach`1_3" Values="[EmailList]">
       <ui:ForEach.Body>
         <ActivityAction x:TypeArguments="snm:MailMessage">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="snm:MailMessage" Name="email" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Searchs" sap:VirtualizedContainerService.HintSize="493,1579" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <Sequence DisplayName="Searchs" sap:VirtualizedContainerService.HintSize="493,1391" sap2010:WorkflowViewState.IdRef="Sequence_2">
             <Sequence.Variables>
               <Variable x:TypeArguments="x:String" Default="[email.Body.ToString.Substring(0,18)]" Name="formatControl" />
-              <Variable x:TypeArguments="x:String" Default="[email.Body.ToString.Substring(19)]" Name="mailBodyContext" />
+              <Variable x:TypeArguments="x:String" Default="[email.Body.ToString.Substring(19).TrimEnd]" Name="mailBodyContext" />
               <Variable x:TypeArguments="x:String" Default="[email.From.ToString.Substring(16,18)]" Name="sendersMail" />
             </Sequence.Variables>
             <sap:WorkflowViewStateService.ViewState>
@@ -112,18 +118,19 @@
                 <x:Boolean x:Key="IsPinned">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <ui:IfElseIf DisplayName="Else If" sap:VirtualizedContainerService.HintSize="451,1487" sap2010:WorkflowViewState.IdRef="IfElseIf_2">
+            <ui:IfElseIf DisplayName="Else If" sap:VirtualizedContainerService.HintSize="451,1299" sap2010:WorkflowViewState.IdRef="IfElseIf_2">
               <ui:IfElseIf.ConditionBlocks>
                 <sc:BindingList x:TypeArguments="ui:IfElseIfBlock" AllowEdit="True" AllowNew="True" AllowRemove="True" RaiseListChangedEvents="True">
                   <ui:IfElseIfBlock BlockType="If" Condition="[not formatControl.Equals(&quot;Arama Parametresi:&quot;)]">
                     <ui:IfElseIfBlock.Then>
-                      <ui:SendOutlookMail Account="{x:Null}" Bcc="{x:Null}" Cc="{x:Null}" MailMessage="{x:Null}" ReplyTo="{x:Null}" TimeoutMS="{x:Null}" Body="Merhaba,&#xA;&#xA;Gönderdiğiniz mail’de hata alındı. Lütfen düzeltme yapıp tekrar gönderin.&#xA;Hata Detayı: Context Format Hatası&#xA;&#xA;İyi çalışmalar." sap:VirtualizedContainerService.HintSize="334,145" sap2010:WorkflowViewState.IdRef="SendOutlookMail_42" Importance="Normal" IsBodyHtml="False" IsDraft="False" Sensitivity="Normal" Subject="Context Format Hatası" To="[sendersMail]">
+                      <ui:SendOutlookMail Account="{x:Null}" Bcc="{x:Null}" Cc="{x:Null}" MailMessage="{x:Null}" ReplyTo="{x:Null}" TimeoutMS="{x:Null}" Body="Merhaba,&#xA;&#xA;Gönderdiğiniz mail’de hata alındı. Lütfen düzeltme yapıp tekrar gönderin.&#xA;Hata Detayı: Context Format Hatası&#xA;&#xA;İyi çalışmalar." sap:VirtualizedContainerService.HintSize="200,51" sap2010:WorkflowViewState.IdRef="SendOutlookMail_42" Importance="Normal" IsBodyHtml="False" IsDraft="False" Sensitivity="Normal" Subject="Context Format Hatası" To="[sendersMail]">
                         <ui:SendOutlookMail.Files>
                           <scg:List x:TypeArguments="InArgument(x:String)" Capacity="0" />
                         </ui:SendOutlookMail.Files>
                         <sap:WorkflowViewStateService.ViewState>
                           <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                            <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
                           </scg:Dictionary>
                         </sap:WorkflowViewStateService.ViewState>
                       </ui:SendOutlookMail>
@@ -140,8 +147,15 @@
                         </sap:WorkflowViewStateService.ViewState>
                         <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke GoogleTrue workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_26" UnSafe="False" WorkflowFileName="GoogleSearch.xaml">
                           <ui:InvokeWorkflowFile.Arguments>
-                            <InArgument x:TypeArguments="x:String" x:Key="mailBodyContext">[mailBodyContext]</InArgument>
-                            <InArgument x:TypeArguments="x:String" x:Key="sendersMail">[sendersMail]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_sendersMail">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="sendersMail" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_mailBodyContext">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="mailBodyContext" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_excelPath">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="excelPath" />
+                            </InArgument>
                           </ui:InvokeWorkflowFile.Arguments>
                           <sap:WorkflowViewStateService.ViewState>
                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -163,8 +177,15 @@
                         </sap:WorkflowViewStateService.ViewState>
                         <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke BingTrue workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_27" UnSafe="False" WorkflowFileName="BingSearch.xaml">
                           <ui:InvokeWorkflowFile.Arguments>
-                            <InArgument x:TypeArguments="x:String" x:Key="mailBodyContext">[mailBodyContext]</InArgument>
-                            <InArgument x:TypeArguments="x:String" x:Key="sendersMail">[sendersMail]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_sendersMail">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="sendersMail" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_mailBodyContext">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="mailBodyContext" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_excelPath">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="excelPath" />
+                            </InArgument>
                           </ui:InvokeWorkflowFile.Arguments>
                           <sap:WorkflowViewStateService.ViewState>
                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -186,8 +207,15 @@
                         </sap:WorkflowViewStateService.ViewState>
                         <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="Invoke YandexTrue workflow" sap:VirtualizedContainerService.HintSize="334,112" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_28" UnSafe="False" WorkflowFileName="YandexSearch.xaml">
                           <ui:InvokeWorkflowFile.Arguments>
-                            <InArgument x:TypeArguments="x:String" x:Key="mailBodyContext">[mailBodyContext]</InArgument>
-                            <InArgument x:TypeArguments="x:String" x:Key="sendersMail">[sendersMail]</InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_sendersMail">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="sendersMail" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_mailBodyContext">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="mailBodyContext" />
+                            </InArgument>
+                            <InArgument x:TypeArguments="x:String" x:Key="in_excelPath">
+                              <mva:VisualBasicValue x:TypeArguments="x:String" ExpressionText="excelPath" />
+                            </InArgument>
                           </ui:InvokeWorkflowFile.Arguments>
                           <sap:WorkflowViewStateService.ViewState>
                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -200,13 +228,14 @@
                   </ui:IfElseIfBlock>
                   <ui:IfElseIfBlock BlockType="Else">
                     <ui:IfElseIfBlock.Then>
-                      <ui:SendOutlookMail Account="{x:Null}" Bcc="{x:Null}" Cc="{x:Null}" MailMessage="{x:Null}" ReplyTo="{x:Null}" TimeoutMS="{x:Null}" Body="Merhaba,&#xA;&#xA;Gönderdiğiniz mail’de hata alındı. Lütfen düzeltme yapıp tekrar gönderin.&#xA;Hata Detayı: Subject Format Hatası&#xA;&#xA;İyi çalışmalar." sap:VirtualizedContainerService.HintSize="334,145" sap2010:WorkflowViewState.IdRef="SendOutlookMail_43" Importance="Normal" IsBodyHtml="False" IsDraft="False" Sensitivity="Normal" Subject="Subject Format Hatası" To="[sendersMail]">
+                      <ui:SendOutlookMail Account="{x:Null}" Bcc="{x:Null}" Cc="{x:Null}" MailMessage="{x:Null}" ReplyTo="{x:Null}" TimeoutMS="{x:Null}" Body="Merhaba,&#xA;&#xA;Gönderdiğiniz mail’de hata alındı. Lütfen düzeltme yapıp tekrar gönderin.&#xA;Hata Detayı: Subject Format Hatası&#xA;&#xA;İyi çalışmalar." sap:VirtualizedContainerService.HintSize="200,51" sap2010:WorkflowViewState.IdRef="SendOutlookMail_43" Importance="Normal" IsBodyHtml="False" IsDraft="False" Sensitivity="Normal" Subject="Subject Format Hatası" To="[sendersMail]">
                         <ui:SendOutlookMail.Files>
                           <scg:List x:TypeArguments="InArgument(x:String)" Capacity="0" />
                         </ui:SendOutlookMail.Files>
                         <sap:WorkflowViewStateService.ViewState>
                           <scg:Dictionary x:TypeArguments="x:String, x:Object">
-                            <x:Boolean x:Key="IsPinned">True</x:Boolean>
+                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
                           </scg:Dictionary>
                         </sap:WorkflowViewStateService.ViewState>
                       </ui:SendOutlookMail>
