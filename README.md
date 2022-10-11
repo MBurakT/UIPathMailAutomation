@@ -1,4 +1,4 @@
 # UIPathMailAutomation
-Get Mail - Read Mail - Get Mail Context - Search On Browser - Data Scrape - Write To Excel - Reply Sender's Mail
+Mülakat Projesi - UiPath(VB)
 
-UiPath(VB)
+Read & Filter Inbox - Get Mail Context - Search On Browser - Data Scrape - Write To Excel - Reply Sender's Mail With Result
